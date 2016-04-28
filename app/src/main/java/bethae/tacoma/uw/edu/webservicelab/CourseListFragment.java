@@ -18,7 +18,7 @@ import android.widget.Toast;
 //import bethae.tacoma.uw.edu.webservicelab.dummy.DummyContent;
 //import bethae.tacoma.uw.edu.webservicelab.dummy.DummyContent.DummyItem;
 import bethae.tacoma.uw.edu.webservicelab.model.Course;
-import data.CourseDB;
+import bethae.tacoma.uw.edu.webservicelab.data.CourseDB;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -53,23 +53,19 @@ public class CourseListFragment extends Fragment {
     public CourseListFragment() {
     }
 
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
-    public static CourseListFragment newInstance(int columnCount) {
-        CourseListFragment fragment = new CourseListFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
-        fragment.setArguments(args);
-        return fragment;
-    }
+//    // TODO: Customize parameter initialization
+//    @SuppressWarnings("unused")
+//    public static CourseListFragment newInstance(int columnCount) {
+//        CourseListFragment fragment = new CourseListFragment();
+//        Bundle args = new Bundle();
+//        args.putInt(ARG_COLUMN_COUNT, columnCount);
+//        fragment.setArguments(args);
+//        return fragment;
+//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-        }
     }
 
     @Override
@@ -86,8 +82,7 @@ public class CourseListFragment extends Fragment {
             }
         }
 
-//        DownloadCoursesTask task = new DownloadCoursesTask();
-//        task.execute(new String[]{COURSE_URL});
+
 
         FloatingActionButton floatingActionButton = (FloatingActionButton)
                 getActivity().findViewById(R.id.fab);
@@ -209,8 +204,8 @@ public class CourseListFragment extends Fragment {
             Toast.makeText(getActivity().getApplicationContext(), result, Toast.LENGTH_LONG).show();
              return;
          }
-//            mCourseList = new ArrayList<Course>();
-//         result = Course.parseCourseJSON(result, mCourseList);
+            mCourseList = new ArrayList<Course>();
+         result = Course.parseCourseJSON(result, mCourseList);
          // Something wrong with the JSON returned.
 
           if (result != null) {
@@ -221,14 +216,23 @@ public class CourseListFragment extends Fragment {
 
                mRecyclerView.setAdapter(new MyCourseRecyclerViewAdapter(mCourseList, mListener));
 
-               // Also, add to the local database
-               for (int i=0; i< mCourseList.size(); i++) {
-                   Course course = mCourseList.get(i);
-                   mCourseDB.insertCourse(course.getCourseID(),
-                           course.getShortDescription(),
-                           course.getLongDescription(),
-                           course.getPrereqs());
-               }
+                if(mCourseDB == null){
+                    mCourseDB = new CourseDB(getActivity());
+                }
+
+                // Delete old data so that you can refresh the local
+                // database with the network data.
+                mCourseDB.deleteCourses();
+
+                //Also, add to the local database
+                for(int i =0; i<mCourseList.size(); i++){
+                    Course course = mCourseList.get(i);
+                    mCourseDB.insertCourse(course.getCourseID(),
+                            course.getShortDescription(),
+                            course.getLongDescription(),
+                            course.getPrereqs());
+
+                }
 
            }
         }

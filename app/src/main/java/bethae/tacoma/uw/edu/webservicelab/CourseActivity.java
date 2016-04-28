@@ -188,7 +188,7 @@ public class CourseActivity extends AppCompatActivity implements  CourseListFrag
                             .show();
                 }
             } catch (JSONException e) {
-                Toast.makeText(getApplicationContext(), "Something wrong with the data" +
+                Toast.makeText(getApplicationContext(), "Something wrong with the bethae.tacoma.uw.edu.webservicelab.data" +
                         e.getMessage(), Toast.LENGTH_LONG).show();
             }
         }

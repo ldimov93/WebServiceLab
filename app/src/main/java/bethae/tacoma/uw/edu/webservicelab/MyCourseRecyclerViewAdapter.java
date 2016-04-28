@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * {@link RecyclerView.Adapter} that can display a {@link Course} and makes a call to the
  * specified {@link CourseListFragment.OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
+ * TODO: Replace the implementation with code for your bethae.tacoma.uw.edu.webservicelab.data type.
  */
 public class MyCourseRecyclerViewAdapter extends RecyclerView.Adapter<MyCourseRecyclerViewAdapter.ViewHolder> {
 

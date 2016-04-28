@@ -77,7 +77,7 @@ public class Course implements Serializable {
                     courseList.add(course);
                 }
             } catch (JSONException e) {
-                reason =  "Unable to parse data, Reason: " + e.getMessage();
+                reason =  "Unable to parse bethae.tacoma.uw.edu.webservicelab.data, Reason: " + e.getMessage();
             }
         }
         return reason;

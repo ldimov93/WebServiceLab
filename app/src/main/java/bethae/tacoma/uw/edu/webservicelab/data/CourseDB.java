@@ -1,4 +1,4 @@
-package data;
+package bethae.tacoma.uw.edu.webservicelab.data;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -42,8 +42,8 @@ public class CourseDB {
         ContentValues contentValues = new ContentValues();
         contentValues.put("id", id);
         contentValues.put("shortDesc", shortDesc);
-        contentValues.put("longDesc", shortDesc);
-        contentValues.put("prereqs", shortDesc);
+        contentValues.put("longDesc", longDesc);
+        contentValues.put("prereqs", prereqs);
 
         long rowId = mSQLiteDatabase.insert("Course", null, contentValues);
         return rowId != -1;
@@ -53,8 +53,10 @@ public class CourseDB {
         mSQLiteDatabase.close();
     }
 
-    /**
-     * Returns the list of courses from the local Course table.
+    public void deleteCourses(){
+        mSQLiteDatabase.delete(COURSE_TABLE, null, null);
+    }
+     /* Returns the list of courses from the local Course table.
      * @return list
      */
     public List<Course> getCourses() {
@@ -112,8 +114,11 @@ public class CourseDB {
             onCreate(sqLiteDatabase);
         }
 
+        @Override
+        public synchronized void close() {
+            super.close();
+        }
     }
-
 
 
 }
